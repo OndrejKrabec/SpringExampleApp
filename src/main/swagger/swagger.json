@@ -1,0 +1,189 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "User Management API",
+    "description": "API for managing users and authentication",
+    "version": "1.0.0"
+  },
+  "schemes": [
+    "http"
+  ],
+  "definitions": {
+    "User": {
+      "type": "object",
+      "description": "Details of a user",
+      "required": [
+        "name",
+        "password",
+        "email"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Unique ID of the user",
+          "example": 1
+        },
+        "name": {
+          "type": "string",
+          "description": "Unique username for the user",
+          "minLength": 3,
+          "maxLength": 50,
+          "example": "johndoe"
+        },
+        "password": {
+          "type": "string",
+          "description": "Password for the user",
+          "minLength": 8,
+          "example": "P@ssw0rd"
+        }
+      }
+    }
+  },
+  "paths": {
+    "/user/create": {
+      "post": {
+        "summary": "Create a new user",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "newUser",
+            "required": true,
+            "description": "Data for the new user",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "422": {
+            "description": "The new user couldn't be created! Wrong data."
+          }
+        }
+      }
+    },
+    "/user/{id}/update": {
+      "put": {
+        "summary": "Update an existing user",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the user to update",
+            "type": "integer",
+            "minimum": 1
+          },
+          {
+            "in": "body",
+            "name": "updatedUser",
+            "required": true,
+            "description": "Updated data for the user",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "422": {
+            "description": "The user couldn't be updated!"
+          }
+        }
+      }
+    },
+    "/user/{id}/delete": {
+      "delete": {
+        "summary": "Delete the existing user",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the user to delete",
+            "type": "integer",
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "422": {
+            "description": "The user couldn't be deleted!"
+          }
+        }
+      }
+    },
+    "/user/list": {
+      "get": {
+        "summary": "Retrieve a list of users with pagination and filtering",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sortDirection",
+            "required": false,
+            "description": "Sorting - direction",
+            "type": "string",
+            "enum": ["asc", "desc"],
+            "default": "asc"
+          },
+          {
+            "in": "query",
+            "name": "sortField",
+            "required": false,
+            "description": "Sorting - field name",
+            "type": "string",
+            "default": "id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{id}/detail": {
+      "get": {
+        "summary": "Retrieve the details of a user",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the user to retrieve",
+            "type": "integer",
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "404": {
+            "description": "The user with the specified ID doesn't exist!"
+          }
+        }
+      }
+    }
+  }
+}
