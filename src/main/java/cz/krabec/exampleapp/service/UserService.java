@@ -52,7 +52,12 @@ public class UserService {
             throw new EntityNotFoundException(String.format("User with id %d not found", id));
         }
         UserEntity userEntity= userRepository.findById(id).get();
+        String password = userEntity.getPassword();
+
         userMapper.toEntity(updatedUser, userEntity);
+        if (updatedUser.getPassword() == null) {
+            userEntity.setPassword(password); // Keep the existing password
+        }
         return userMapper.toDTO(userRepository.save(userEntity));
     }
 }

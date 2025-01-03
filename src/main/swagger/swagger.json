@@ -25,10 +25,16 @@
         },
         "name": {
           "type": "string",
-          "description": "Unique username for the user",
+          "description": "Name of the user",
           "minLength": 3,
           "maxLength": 50,
           "example": "johndoe"
+        },
+        "username": {
+          "type": "string",
+          "description": "Unique username for the user",
+          "minLength": 8,
+          "example": "P@ssw0rd"
         },
         "password": {
           "type": "string",
