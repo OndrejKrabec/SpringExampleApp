@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,6 +35,8 @@ public class SecurityConfig {
                             .requestMatchers("/api/users/create").permitAll() // Public access
                             .requestMatchers("/api/users/{id}/delete", "/api/users/{id}/update").authenticated() // Require authentication
                             .anyRequest().authenticated()
+                    )            .httpBasic(httpBasic ->
+                            httpBasic.realmName("Example app api")
                     );
             return http.build();
         }

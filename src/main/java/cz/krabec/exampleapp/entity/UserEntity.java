@@ -15,7 +15,7 @@ public class UserEntity {
     private String name;
 
     @NotNull
-    @Column(name = "username", nullable = false, length = Integer.MAX_VALUE)
+    @Column(name = "username", nullable = false,unique = true, length = Integer.MAX_VALUE)
     private String username;
 
     @NotNull

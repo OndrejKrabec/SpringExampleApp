@@ -15,6 +15,7 @@ public interface AbstractMapper<M, E> {
 
     M toDTO(E source);
 
+    @Mappings(@Mapping(target = "id", ignore = true))
     void toEntity(@Valid M model, @MappingTarget E entity);
 }
 

@@ -7,6 +7,7 @@ package cz.krabec.exampleapp.api;
  */
 
 import cz.krabec.exampleapp.model.User;
+import cz.krabec.exampleapp.model.UserUpdated;
 import io.swagger.annotations.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -60,7 +61,7 @@ public interface UserApi {
             @ApiResponse(code = 422, message = "The user couldn't be updated!") })
     @RequestMapping(value = "/user/{id}/update",
             method = RequestMethod.PUT)
-    ResponseEntity<?> userIdUpdatePut(@Min(1)@ApiParam(value = "ID of the user to update",required=true) @PathVariable("id") Integer id,@ApiParam(value = "Updated data for the user" ,required=true )  @Valid @RequestBody User updatedUser);
+    ResponseEntity<?> userIdUpdatePut(@Min(1)@ApiParam(value = "ID of the user to update",required=true) @PathVariable("id") Integer id,@ApiParam(value = "Updated data for the user" ,required=true )  @Valid @RequestBody UserUpdated updatedUser);
 
 
     @ApiOperation(value = "Retrieve a list of users with pagination and filtering", nickname = "userListGet", notes = "", response = User.class, responseContainer = "List", tags={ "User", })

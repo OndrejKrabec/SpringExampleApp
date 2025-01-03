@@ -3,6 +3,7 @@ package cz.krabec.exampleapp.api.impl;
 import cz.krabec.exampleapp.api.UserApi;
 import cz.krabec.exampleapp.entity.repository.UserRepository;
 import cz.krabec.exampleapp.model.User;
+import cz.krabec.exampleapp.model.UserUpdated;
 import cz.krabec.exampleapp.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class UserApiImpl implements UserApi {
             return ResponseEntity.ok(userService.createEntity(newUser));
         }
         catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());}
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());}
         }
 
     @Override
@@ -46,11 +47,14 @@ public class UserApiImpl implements UserApi {
     }
 
     @Override
-    public ResponseEntity<?> userIdUpdatePut(Integer id, User updatedUser) {
+    public ResponseEntity<?> userIdUpdatePut(Integer id, UserUpdated updatedUser) {
         try {
             return ResponseEntity.ok(userService.updateEntity(id,updatedUser));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+        catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
 
